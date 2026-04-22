@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance Triage AI Agent</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="glass-background">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+    </div>
+
+    <div class="container fade-in">
+        <header>
+            <div class="logo">
+                <i class="fa-solid fa-chart-line"></i>
+                <h1>NexusFinance <span>AI Triage</span></h1>
+            </div>
+            <p class="subtitle">Automated classification, NER extraction, and response generation for incoming comms.</p>
+        </header>
+
+        <main class="dashboard">
+            <section class="panel input-panel">
+                <div class="panel-header">
+                    <h2><i class="fa-regular fa-envelope"></i> Incoming Message</h2>
+                    <span class="status-badge" id="conn-status">API Connected</span>
+                </div>
+                
+                <div class="editor-container">
+                    <textarea id="message-input" placeholder="Paste or fully type the customer's message here to instantly generate triage metrics...&#10;&#10;For example:&#10;'URGENT: I noticed an unauthorized wire transfer of ₹50,000 from my account ending in 8912 today. Please look into this right away!'"></textarea>
+                </div>
+                
+                <button id="analyze-btn" class="primary-btn">
+                    <i class="fa-solid fa-microchip"></i>
+                    <span>Analyze Communication</span>
+                </button>
+            </section>
+
+            <section class="panel results-panel">
+                <div class="panel-header">
+                    <h2><i class="fa-solid fa-bolt"></i> AI Analysis</h2>
+                    <div id="loading-indicator" class="loading hidden">
+                        <div class="spinner"></div>
+                        <span>Processing with LLM...</span>
+                    </div>
+                </div>
+
+                <div id="results-content" class="results-content">
+                    <div class="empty-state">
+                        <i class="fa-solid fa-sparkles"></i>
+                        <h3 style="margin-bottom: 10px; color: #f8fafc; font-weight: 500; font-size: 1.4rem;">Ready to Analyze</h3>
+                        <p style="font-size: 1.05rem; line-height: 1.6; max-width: 80%;">Submit a client message on the left to instantly extract intent, urgency, and formulate a draft response.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Template for results (hidden by default, populated via JS) -->
+    <template id="result-template">
+        <div class="analysis-results fade-in-up">
+            <div class="metrics-row">
+                <div class="metric-card">
+                    <h3>Intent</h3>
+                    <div class="metric-value intent-val"><i class="fa-solid fa-bullseye"></i> <span class="val-text">--</span></div>
+                </div>
+                <div class="metric-card">
+                    <h3>Urgency</h3>
+                    <div class="metric-value urgency-val"><i class="fa-solid fa-triangle-exclamation"></i> <span class="val-text">--</span></div>
+                </div>
+            </div>
+
+            <div class="ner-section">
+                <h3><i class="fa-solid fa-tags"></i> Extracted Entities</h3>
+                <div class="entities-grid">
+                    <div class="entity-group">
+                        <span class="entity-label">Account IDs</span>
+                        <div class="entity-list" id="ent-accounts">None detected</div>
+                    </div>
+                    <div class="entity-group">
+                        <span class="entity-label">Dates</span>
+                        <div class="entity-list" id="ent-dates">None detected</div>
+                    </div>
+                    <div class="entity-group">
+                        <span class="entity-label">Amounts</span>
+                        <div class="entity-list" id="ent-amounts">None detected</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="draft-section">
+                <h3><i class="fa-solid fa-pen-nib"></i> Draft Response</h3>
+                <div class="draft-box">
+                    <p id="draft-text" class="draft-content"></p>
+                    <button class="icon-btn copy-btn" title="Copy to clipboard">
+                        <i class="fa-regular fa-copy"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script src="app.js"></script>
+</body>
+</html>
