@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  finance-triage-agent:
+    build: .
+    container_name: finance-triage-agent
+    ports:
+      - "8000:8000"
+    volumes:
+      # Optional: Mount the source code for hot-reloading during development.
+      # Comment out for pure production running.
+      - ./app:/app/app
+      - ./frontend:/app/frontend
+    env_file:
+      - .env
+    environment:
+      - PORT=8000
+    restart: unless-stopped
