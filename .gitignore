@@ -7,3 +7,5 @@ env/
 .pytest_cache/
 .coverage
 htmlcov/
+*.pem
+deploy.zip
